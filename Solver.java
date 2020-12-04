@@ -1,5 +1,7 @@
 //package sudoku;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.util.Arrays;
 
 //import javax.swing.border.EmptyBorder;
@@ -22,6 +24,9 @@ public class Solver implements SudokuSolver {
 				int temp=pregrid[i][j];
 				checkgrid[i][j]=temp;
 			}
+		}
+		if(!is_ok(pregrid)) {
+			throw new IllegalArgumentException("Bad pregrid");
 		}
 		/*
 		for(int[] row: grid) {
@@ -73,20 +78,20 @@ public class Solver implements SudokuSolver {
 		} 
 		for(int i = start_row; i<stop_row; i++) {
 			for(int j=start_col; j<stop_col;j++) {
-				if(grid[i][j] == number)
+				if(grid[i][j] == number & !(i==row & j==col))
 					subcheck = false;
 			}
 		}
 	   // Checks row;
 		boolean rowcheck = true;
 		for(int k=0;k<9;k++) {
-			if(grid[row][k]==number)
+			if(grid[row][k]==number & k!=col)
 				rowcheck = false;
 		}
 		//checks column.
 		boolean colcheck = true;
 		for(int k=0;k<9;k++) {
-			if(grid[k][col]==number)
+			if(grid[k][col]==number &  k!=row)
 				colcheck = false;
 		}
 		return subcheck && rowcheck && colcheck;
@@ -187,21 +192,37 @@ public class Solver implements SudokuSolver {
 	 **/
 	@Override
 	public void setNumbers(int[][] numbers) {
-		// TODO Auto-generated method stub
+		this.checkgrid = numbers;
 		
 	}
-
+	/**
+	 * Prints the sudoku.
+	 */
 	public void print() {
 		for(int[] row: this.grid) {
 			System.out.println(Arrays.toString(row));
 		}
 	}	
-	
+	/**
+	 * Prints the checkgrid.
+	 */
 	public void checkgrid() {
 		for(int[] row: this.checkgrid) {
 			System.out.println(Arrays.toString(row));
 		}
 	}	
+	
+	public boolean is_ok(int[][] pregrid) {
+		//boolean ok = true;
+		for(int row=0; row <9;row+=1) {
+			for(int col=0; col<9;col+=1) {
+				int number = getNumber(row, col);
+				if(!trySetNumber(row,col,number) & number!=0)
+					return false;
+			}
+		}
+		return true;
+	}
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
@@ -213,30 +234,16 @@ public class Solver implements SudokuSolver {
 		
 		/*
 		p[0][0]=1;
+		p[0][3]=1;
+		*/
+		
+		/*
+		p[0][0]=1;
 		p[0][1]=1;
 		*/
 		
+
 		/*
-		p[0][3] = 7;
-		p[1][1] = 1;
-		p[2][7] =3;
-		
-		p[3][0] = 2;
-		p[2][8] = 9;
-		*/
-		
-		/*
-		p[1][0]=1;
-		p[0][3]=2;
-		p[2][2]=3;
-		p[3][0]=4;
-		p[0][5]=5;
-		p[1][1]=6;
-		p[0][1]=7;
-		p[0][2]=8;
-		p[2][1]=9;
-		*/
-		
 		p[0][0] = 5;
 		p[0][1] = 3;
 		p[0][4] = 7;
@@ -275,14 +282,81 @@ public class Solver implements SudokuSolver {
 		p[8][4] = 8;
 		p[8][7] = 7;
 		p[8][8] = 9;
+		*/
+		
+		/*
+		p[1][0]=1;
+		p[0][3]=2;
+		p[2][2]=3;
+		p[3][0]=4;
+		p[0][5]=5;
+		p[1][1]=6;
+		p[0][1]=7;
+		p[0][2]=8;
+		p[2][1]=9;
+		*/
+		
+		/*
+		 * This takes very long.
+		 *
+		
+		p[6][6] = 1;
+		p[6][7] = 2;
+		p[6][8] = 3;
+		p[7][6] = 4;
+		p[7][7] = 5;
+		p[7][8] = 6;
+		p[8][5] = 9;
+		p[8][6] = 7;
+		p[8][7] = 8;
+		*/
+		
+		/*
+		p[0][4] = 1;
+		p[0][5] = 2;
+		p[1][3] = 3;
+		p[1][4] = 4;
+		p[1][5] = 5;
+		p[2][3] = 6;
+		p[2][4] = 7;
+		p[2][5] = 8;
+		p[3][3] = 9;
+		*/
+		
+		/*
+		p[3][2] = 1;
+		p[3][4] = 2;
+		p[3][5] = 3;
+		p[4][3] = 4;
+		p[4][4] = 5;
+		p[4][5] = 6;
+		p[5][3] = 7;
+		p[5][4] = 8;
+		p[5][5] = 9;
+		*/
+		
+		p[0][0] = 1;
+		p[0][1] = 2;
+		p[1][0] = 3;
+		p[1][1] = 4;
+		p[1][2] = 5;
+		p[2][0] = 6;
+		p[2][1] = 7;
+		p[2][2] = 8;
+		p[3][2] = 9;
+		
 		
 		Solver s = new Solver(p);
+		
+		System.out.println(s.solve());
+		
+		//System.out.println(s.is_ok(p));
+		
+		//System.out.println(s.trySetNumber(0, 2, 2));
 		
 		//s.print();
 		
 		
-		System.out.println(s.solve());
-		s.print();
 		
 		
 	}
