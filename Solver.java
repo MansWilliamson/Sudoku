@@ -10,10 +10,17 @@ import java.util.Arrays;
 public class Solver implements SudokuSolver {
 	int[][] grid;
 	int[][] checkgrid;
+	
+	public Solver() {
+		grid = new int[9][9];
+		checkgrid = new int[9][9];
+	}
 
 	/**
 	 * Starts a board with fixed values from pregrid. Also creates a @checkgrid which is used to lock positions and make them non-changeable.
 	 * @param pregrid
+	 * 
+	 * 
 	 */
 	public Solver(int[][] pregrid) {
 		// TODO Auto-generated constructor stub
@@ -33,6 +40,7 @@ public class Solver implements SudokuSolver {
 			Arrays.fill(row, 0);
 		}*/
 	}
+	
 	/**
 	 * Sets the digit number in the box row, col. Should be used together with trySetNumber!
 	 * 
@@ -153,12 +161,16 @@ public class Solver implements SudokuSolver {
 		}
 		
 		if(checkgrid[row][col]!=0) {
-			int col_next = (col+1)%9;
-			int row_next =row;
-			if(col_next==0) {
-				row_next +=1;
+			if(trySetNumber(row,col,checkgrid[row][col])) { //Kolla om talet som redan står där är ok.
+				int col_next = (col+1)%9;
+				int row_next =row;
+				if(col_next==0) {
+					row_next +=1;
+				}
+				return solve_help(row_next,col_next);
+			} else {
+				return false;
 			}
-			return solve_help(row_next,col_next);
 		}
 		for(int val=1;val<10;val++){
 			if(trySetNumber(row,col,val)) {
@@ -192,7 +204,14 @@ public class Solver implements SudokuSolver {
 	 **/
 	@Override
 	public void setNumbers(int[][] numbers) {
-		this.checkgrid = numbers;
+		//checkgrid= new int[9][9];
+		for(int i=0;i<9;i++) {
+			for(int j=0;j<9;j++) {
+				int temp=numbers[i][j];
+				checkgrid[i][j]=temp;
+				grid[i][j] = temp;
+			}
+		}
 		
 	}
 	/**
@@ -334,7 +353,7 @@ public class Solver implements SudokuSolver {
 		p[5][4] = 8;
 		p[5][5] = 9;
 		*/
-		
+		/*
 		p[0][0] = 1;
 		p[0][1] = 2;
 		p[1][0] = 3;
@@ -344,11 +363,62 @@ public class Solver implements SudokuSolver {
 		p[2][1] = 7;
 		p[2][2] = 8;
 		p[3][2] = 9;
+		*/
+		
+		/*
+		p[0][0] = 1;
+		p[0][8] = 2;
+		p[4][4] = 5;
+		p[8][0] = 3;
+		p[8][8] = 4;
+		*/
+		/*
+		p[3][3]=1;
+		p[3][0]=1;
+		*/
 		
 		
-		Solver s = new Solver(p);
+		p[0][2] = 8;
+		p[0][5] = 9;
+		p[0][7] = 6;
+		p[0][8] = 2;
 		
-		System.out.println(s.solve());
+		p[1][8] = 5;
+		
+		p[2][0] = 1;
+		p[2][2] = 2;
+		p[2][3] = 5;
+		
+		p[3][3] = 2;
+		p[3][4] = 1;
+		p[3][7] = 9;
+		
+		p[4][1] = 5;
+		p[4][6] = 6;
+		
+		p[5][0] = 6;
+		p[5][7] = 2;
+		p[5][8] = 8;
+		
+		p[6][0] = 4;
+		p[6][1] = 1;
+		p[6][3] = 6;
+		p[6][5] = 8;
+		
+		p[7][0] = 8;
+		p[7][1] = 6;
+		p[7][4] = 3;
+		p[7][6] = 1;
+		
+		p[8][6] = 4;
+		
+		Solver s = new Solver();
+		
+		s.setNumbers(p);
+		
+		s.print();
+		
+		//System.out.println(s.solve());
 		
 		//System.out.println(s.is_ok(p));
 		
@@ -356,6 +426,9 @@ public class Solver implements SudokuSolver {
 		
 		//s.print();
 		
+		//s.solve();
+		
+		//s.print();
 		
 		
 		
