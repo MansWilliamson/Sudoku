@@ -1,4 +1,6 @@
 
+
+
 import javax.swing.JFrame;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -30,9 +32,10 @@ import java.util.List;
 import java.util.Collections;
 
 
+
 public class SudokuWindow extends JFrame {
-	Solver solver =  new Solver();
-	int[][] pregrid= new int[9][9]; 
+	private Solver solver =  new Solver();
+	private int[][] pregrid= new int[9][9]; 
 	
 	
 	
@@ -45,7 +48,7 @@ public class SudokuWindow extends JFrame {
 		JFrame frame = new JFrame(title);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		Container pane = frame.getContentPane();		
-		// pane är en behållarkomponent till vilken de övriga komponenterna(listvy, knappar etc.) ska läggas till.
+
 		
 		JPanel centerPanel=new JPanel();
 		centerPanel.setLayout(new GridLayout(9,9));
@@ -94,13 +97,10 @@ public class SudokuWindow extends JFrame {
 		JButton solveButton = new JButton("Solve");	
 		solveButton.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent ae) {
-				//solve
-				//uppdatera pregrid till värdena på 9x9 buttonsen och skicka in i solvern.
-				if(solver.is_ok(pregrid)){
+
+				if(solver.is_ok()){
 					solver.setNumbers(pregrid);
 					if(solver.solve()) {
-						solver.solve();
-	
 						for(int i=0;i<9;i++){
 							for(int j=0;j<9;j++) {
 								
@@ -112,7 +112,7 @@ public class SudokuWindow extends JFrame {
 					}
 
 				} 
-				if(!solver.is_ok(pregrid)){
+				else {
 					JOptionPane.showMessageDialog(frame, "Error: Bad starting grid.");
 					
 					
@@ -149,8 +149,7 @@ public class SudokuWindow extends JFrame {
 		frame.pack();
 		frame.setVisible(true);
 	}
-	
-	public class SButton extends JButton {
+	private class SButton extends JButton {
 
 		private static final long serialVersionUID = 1L;
 		
@@ -160,9 +159,7 @@ public class SudokuWindow extends JFrame {
 			super(text);
 		}
 		
-		
 	}
 	
 
 }
-

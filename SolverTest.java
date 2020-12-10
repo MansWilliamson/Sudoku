@@ -6,7 +6,6 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import map.SimpleHashMap;
 
 class SolverTest {
 	SudokuSolver s1;
@@ -48,7 +47,7 @@ class SolverTest {
 	
 	@Test
 	/**
-	 * Just add some numbers to a pregrid.
+	 * Test adding some random numbers to a pregrid.
 	 */
 	void test_init() {
 
@@ -65,8 +64,8 @@ class SolverTest {
 	}
 	
 	@Test
-	/*
-	 * Test a 'sudoku' which is not solvable.
+	/**
+	 * Test sudoku:s that aren't solvable.
 	 */
 	void test_unsolvable() {
 		
@@ -114,11 +113,9 @@ class SolverTest {
 	
 	@Test
 	/**
-	 * Test solving a real suduko.
+	 * Test solving a real suduko. p2 is the sudoku from the instructions.
 	 */
-	void test_real_sudoku() {
-		//p2 är sudoku:t från instruktionerna.
-		
+	void test_real_sudoku() {		
 		
 		p1[0][0] = 5;
 		p1[0][1] = 3;
@@ -196,7 +193,6 @@ class SolverTest {
 		
 		s1 = new Solver(p1);
 		s2 = new Solver(p2);
-		//s1.setNumbers(p1);
 		assertTrue(s1.solve(),"Should return true for solvable sudoku.");
 		assertTrue(s2.solve(),"Should return true for solvable sudoku.");
 		
@@ -213,7 +209,7 @@ class SolverTest {
 	
 	@Test
 	/**
-	 * Test passing a bad grid to the contructor (should throw illegalargument exception.
+	 * Test passing a "bad" (the numbers shouldn't have been allowed to be entered) grid to the constructor (should throw "illegal argument exception").
 	 */
 	void test_badgrid() {
 		

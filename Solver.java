@@ -8,8 +8,8 @@ import java.util.Arrays;
 //import javax.swing.*; varför??
 
 public class Solver implements SudokuSolver {
-	int[][] grid;
-	int[][] checkgrid;
+	private int[][] grid;
+	private int[][] checkgrid;
 	
 	public Solver() {
 		grid = new int[9][9];
@@ -32,13 +32,9 @@ public class Solver implements SudokuSolver {
 				checkgrid[i][j]=temp;
 			}
 		}
-		if(!is_ok(pregrid)) {
+		if(!is_ok()) {
 			throw new IllegalArgumentException("Bad pregrid");
 		}
-		/*
-		for(int[] row: grid) {
-			Arrays.fill(row, 0);
-		}*/
 	}
 	
 	/**
@@ -141,7 +137,7 @@ public class Solver implements SudokuSolver {
 		
 	}
 	/**
-	 * Returns true if solvable
+	 * Returns true if solvable.
 	 */
 	@Override
 	public boolean solve() {
@@ -155,7 +151,7 @@ public class Solver implements SudokuSolver {
 	 * @param col
 	 * @return
 	 */
-	public boolean solve_help(int row, int col) {
+	private boolean solve_help(int row, int col) {
 		if(row==9) {
 			return true;
 		}
@@ -190,7 +186,7 @@ public class Solver implements SudokuSolver {
 	}
 	
 	/**
-	 * Returns numbers in sudoku.
+	 * Returns the numbers entered in the sudoku.
 	 */
 	@Override
 	public int[][] getNumbers() {
@@ -230,207 +226,22 @@ public class Solver implements SudokuSolver {
 			System.out.println(Arrays.toString(row));
 		}
 	}	
-	
-	public boolean is_ok(int[][] pregrid) {
-		//boolean ok = true;
+	/**
+	 * Check if numbers entered in the grid are allowed.
+	 * @param pregrid
+	 * @return
+	 */
+	public boolean is_ok() {
 		for(int row=0; row <9;row+=1) {
 			for(int col=0; col<9;col+=1) {
 				int number = getNumber(row, col);
 				if(!trySetNumber(row,col,number) & number!=0)
 					return false;
+
 			}
 		}
 		return true;
 	}
-	
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		
-		int[][] p = new int[9][9];  //create pregrid.
-		for(int[] row: p) {
-			Arrays.fill(row, 0);
-		}
-		
-		/*
-		p[0][0]=1;
-		p[0][3]=1;
-		*/
-		
-		/*
-		p[0][0]=1;
-		p[0][1]=1;
-		*/
-		
 
-		/*
-		p[0][0] = 5;
-		p[0][1] = 3;
-		p[0][4] = 7;
-		
-		p[1][0] = 6;
-		p[1][3] = 1;
-		p[1][4] = 9;
-		p[1][5] = 5;
-		
-		p[2][1] = 9;
-		p[2][2] = 8;
-		p[2][7] = 6;
-		
-		p[3][0] = 8;
-		p[3][4] = 6;
-		p[3][8] = 3;
-		
-		p[4][0] = 4;
-		p[4][3] = 8;
-		p[4][5] = 3;
-		p[4][8] = 1;
-		
-		p[5][0] = 7;
-		p[5][4] = 2;
-		p[5][8] = 6;
-		
-		p[6][1] = 6;
-		p[6][6] = 2;
-		p[6][7] = 8;
-		
-		p[7][3] = 4;
-		p[7][4] = 1;
-		p[7][5] = 9;
-		p[7][8] = 5;
-		
-		p[8][4] = 8;
-		p[8][7] = 7;
-		p[8][8] = 9;
-		*/
-		
-		/*
-		p[1][0]=1;
-		p[0][3]=2;
-		p[2][2]=3;
-		p[3][0]=4;
-		p[0][5]=5;
-		p[1][1]=6;
-		p[0][1]=7;
-		p[0][2]=8;
-		p[2][1]=9;
-		*/
-		
-		/*
-		 * This takes very long.
-		 *
-		
-		p[6][6] = 1;
-		p[6][7] = 2;
-		p[6][8] = 3;
-		p[7][6] = 4;
-		p[7][7] = 5;
-		p[7][8] = 6;
-		p[8][5] = 9;
-		p[8][6] = 7;
-		p[8][7] = 8;
-		*/
-		
-		/*
-		p[0][4] = 1;
-		p[0][5] = 2;
-		p[1][3] = 3;
-		p[1][4] = 4;
-		p[1][5] = 5;
-		p[2][3] = 6;
-		p[2][4] = 7;
-		p[2][5] = 8;
-		p[3][3] = 9;
-		*/
-		
-		/*
-		p[3][2] = 1;
-		p[3][4] = 2;
-		p[3][5] = 3;
-		p[4][3] = 4;
-		p[4][4] = 5;
-		p[4][5] = 6;
-		p[5][3] = 7;
-		p[5][4] = 8;
-		p[5][5] = 9;
-		*/
-		/*
-		p[0][0] = 1;
-		p[0][1] = 2;
-		p[1][0] = 3;
-		p[1][1] = 4;
-		p[1][2] = 5;
-		p[2][0] = 6;
-		p[2][1] = 7;
-		p[2][2] = 8;
-		p[3][2] = 9;
-		*/
-		
-		/*
-		p[0][0] = 1;
-		p[0][8] = 2;
-		p[4][4] = 5;
-		p[8][0] = 3;
-		p[8][8] = 4;
-		*/
-		/*
-		p[3][3]=1;
-		p[3][0]=1;
-		*/
-		
-		
-		p[0][2] = 8;
-		p[0][5] = 9;
-		p[0][7] = 6;
-		p[0][8] = 2;
-		
-		p[1][8] = 5;
-		
-		p[2][0] = 1;
-		p[2][2] = 2;
-		p[2][3] = 5;
-		
-		p[3][3] = 2;
-		p[3][4] = 1;
-		p[3][7] = 9;
-		
-		p[4][1] = 5;
-		p[4][6] = 6;
-		
-		p[5][0] = 6;
-		p[5][7] = 2;
-		p[5][8] = 8;
-		
-		p[6][0] = 4;
-		p[6][1] = 1;
-		p[6][3] = 6;
-		p[6][5] = 8;
-		
-		p[7][0] = 8;
-		p[7][1] = 6;
-		p[7][4] = 3;
-		p[7][6] = 1;
-		
-		p[8][6] = 4;
-		
-		Solver s = new Solver();
-		
-		s.setNumbers(p);
-		
-		s.print();
-		
-		//System.out.println(s.solve());
-		
-		//System.out.println(s.is_ok(p));
-		
-		//System.out.println(s.trySetNumber(0, 2, 2));
-		
-		//s.print();
-		
-		//s.solve();
-		
-		//s.print();
-		
-		
-		
-	}
+	
 }

@@ -1,4 +1,3 @@
-package sudoku;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -7,6 +6,7 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Arrays;
 import java.util.Map;
 
 import javax.swing.*;
@@ -18,6 +18,7 @@ public class SudokuGUI {
 	public static void main(String[] args){
 		//Grejer för sudokulösaren
 		int[][] pregrid= new int[9][9]; //pregrid till Sudokulösaren
+		
 		
 		//Använd Swing
 		// fönster med klickbara grids, +1 varje klick per ruta
@@ -47,7 +48,7 @@ public class SudokuGUI {
 		 * add panel with buttons
 		 */
 		//Skapar en tom board.
-		reset(centerPanel, pregrid);
+		//reset(centerPanel, pregrid);
 
 		/**	
 		 * add Solve button + clear button
@@ -58,7 +59,18 @@ public class SudokuGUI {
 			public void actionPerformed(ActionEvent ae) {
 				//solve
 				//uppdatera pregrid till värdena på 9x9 buttonsen och skicka in i solvern.
-			}
+				Solver solver = new Solver(pregrid);
+				solver.solve();
+				
+				for(int[] row: pregrid) {
+					System.out.println(Arrays.toString(row));
+				}
+				/*
+				for(int i=0;i<9;i++){
+					for(int j=0;j<9;j++) {
+						buttongrid[i][j].setText(solver.getNumber(i,j));
+			}*/
+		}
 		});		
 		southPanel.add(solveButton);
 		
@@ -68,7 +80,7 @@ public class SudokuGUI {
 			public void actionPerformed(ActionEvent ae) {
 				//clear
 				//set all button-values to 0
-				reset(centerPanel,pregrid);
+				//reset(centerPanel,pregrid);
 				centerPanel.updateUI();
 			}
 		});	
@@ -78,13 +90,47 @@ public class SudokuGUI {
 		//Starta
 		frame.pack();
 		frame.setVisible(true);
-	}
 	
+	
+	JButton[][] buttongrid=new JButton[9][9];
+	for(int i=0;i<9;i++){
+		for(int j=0;j<9;j++) {
+			buttongrid[i][j]= new JButton("0");
+			JButton tempButton=buttongrid[i][j];
+			if((i/3+j/3)%2==0) {
+				buttongrid[i][j].setBackground(Color.lightGray);
+			}else {
+				buttongrid[i][j].setBackground(Color.WHITE);
+			}
+			final Integer inneri = new Integer(i);
+			final Integer innerj = new Integer(j);  //Verkar som att detta är nödvändigt för att komma åt index:n i actionlistener:n.
+			buttongrid[i][j].addActionListener(new ActionListener() {
+				int val=0;
+		        public void actionPerformed(ActionEvent ae) {
+		        	 	//Här händer saker när man trycker på knappen
+		        	 	//Gör en pregrid där dessa värden även sätts in, denna pregrid skickas sedan in i solve.
+		        	 	val=val+1;
+		        	 	if(val>9) {
+		        	 		val=0;
+		        	 	}
+		        	 	tempButton.setText(String.valueOf(val));
+		        	 	pregrid[inneri][innerj] = val;
+		        	 	System.out.println("p["+inneri+","+innerj+"] = "+val);
+		          }
+		       });
+			centerPanel.add(buttongrid[i][j]);
+		}
+	}
+	centerPanel.updateUI();
+}
+
+}
 	/**
 	 * Ställer tillbaka alla knappar till 0. (ska den göra det med pregrid också?)
 	 * @param panel
 	 * @param pregrid
 	 */
+	/*
 	private static void reset(JPanel panel, int[][] pregrid) {
 		panel.removeAll();
 		JButton[][] buttongrid=new JButton[9][9];
@@ -115,4 +161,4 @@ public class SudokuGUI {
 			}	
 		}
 	}
-}
+}*/
