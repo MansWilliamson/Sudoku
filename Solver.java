@@ -1,11 +1,5 @@
-//package sudoku;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.util.Arrays;
-
-//import javax.swing.border.EmptyBorder;
-//import javax.swing.*; varför??
 
 public class Solver implements SudokuSolver {
 	private int[][] grid;
@@ -60,11 +54,6 @@ public class Solver implements SudokuSolver {
 	@Override
 	public boolean trySetNumber(int row, int col, int number) {
 		// TODO Auto-generated method stub
-		//Checks submatrix
-		/*
-		if(checkgrid[row][col]!=0) {
-			return false;
-		}*/
 		int stop_row = -1;
 		int start_row =-1;
 		int start_col =-1;
